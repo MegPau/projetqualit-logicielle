@@ -31,7 +31,9 @@ public class LivreTest {
 		livre.setEmpruntable(true);
 		livre.setEmprunte(false);
 		livre.emprunter();
-		assertTrue(livre.estEmprunte());
+		int expected = livre.getNbEmprunts() + 1;
+		assertTrue("Le livre n'est pas emprunté. ",livre.estEmprunte());
+		assertEquals("Le nombre d'emprunts n'est pas correct. ", expected, livre.getNbEmprunts());
 	}
 	
 	@Test(expected = OperationImpossible.class)
@@ -60,7 +62,7 @@ public class LivreTest {
 		livre.setEmpruntable(false);
 		livre.setEmprunte(true);
 		livre.setNbPages(10);
-		assertFalse(livre.invariantLivre());
+		assertFalse("L'invariant de Document n'est pas correct.",livre.invariantLivre());
 	}
 
 	@Test
@@ -68,7 +70,7 @@ public class LivreTest {
 		livre.setEmpruntable(true);
 		livre.setEmprunte(false);
 		livre.setNbPages(10);
-		assertTrue(livre.invariantLivre());
+		assertTrue("L'invariant n'est pas correct.", livre.invariantLivre());
 	}
 	
 	@Test
@@ -76,7 +78,7 @@ public class LivreTest {
 		livre.setEmpruntable(false);
 		livre.setEmprunte(false);
 		livre.setNbPages(-10);
-		assertFalse(livre.invariantLivre());
+		assertFalse("L'invariant de Livre n'est pas correct.", livre.invariantLivre());
 	}
 	
 	@Test
@@ -84,7 +86,7 @@ public class LivreTest {
 		livre.setEmpruntable(true);
 		livre.setEmprunte(true);
 		livre.setNbPages(-10);
-		assertFalse(livre.invariantLivre());
+		assertFalse("L'invariant de Livre n'est pas correct.", livre.invariantLivre());
 	}
 	
 }

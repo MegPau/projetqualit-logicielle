@@ -31,7 +31,7 @@ public class DocumentTest {
 		document1.setEmpruntable(false);
 		document1.setEmprunte(false);
 		document1.metEmpruntable();
-		assertTrue(document1.estEmpruntable());
+		assertTrue("L'emprunt du document n'a pas été autorisé.", document1.estEmpruntable());
 	}
 	
 	@Test(expected = OperationImpossible.class)
@@ -53,7 +53,7 @@ public class DocumentTest {
 		document1.setEmpruntable(true);
 		document1.setEmprunte(false);
 		document1.metConsultable();
-		assertFalse(document1.estEmpruntable());
+		assertFalse("L'emprunt du document n'a pas été interdit.", document1.estEmpruntable());
 	}
 	
 	@Test(expected = OperationImpossible.class)
@@ -75,7 +75,7 @@ public class DocumentTest {
 	public void emprunterTest() throws OperationImpossible, InvariantBroken{
 		document1.setEmpruntable(true);
 		document1.setEmprunte(false);
-		assertTrue(document1.emprunter());
+		assertTrue("Le document n'a pas été emprunté", document1.emprunter());
 	}
 	@Test(expected = OperationImpossible.class)
 	public void emprunterRefusNonEmpruntableTest() throws OperationImpossible, InvariantBroken{
@@ -94,8 +94,8 @@ public class DocumentTest {
 		document1.setEmpruntable(true);
 		document1.setEmprunte(true);
 		document1.restituer();
-		assertFalse(document1.estEmprunte());
-		assertTrue(document1.estEmpruntable());
+		assertFalse("Le document est toujours considéré comme emprunté. ",document1.estEmprunte());
+		assertTrue("Le document n'a pas été rétabli comme empruntable. ", document1.estEmpruntable());
 	}
 	
 	@Test(expected = OperationImpossible.class)

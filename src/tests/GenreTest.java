@@ -33,7 +33,7 @@ public class GenreTest {
 		int expected;
 		expected = genre1.getNbEmprunts() + 1;
 		genre1.emprunter();
-		assertEquals(expected, genre1.getNbEmprunts());
+		assertEquals("Le nombre d'emprunts n'est pas correct.", expected, genre1.getNbEmprunts());
 	}
 
 }
