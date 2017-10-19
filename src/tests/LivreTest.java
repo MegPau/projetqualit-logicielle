@@ -29,7 +29,8 @@ public class LivreTest {
 	@Test
 	public void emprunterTest1() throws InvariantBroken, OperationImpossible {
 		livre.metEmpruntable();
-		assertTrue(livre.emprunter());
+		livre.emprunter();
+		assertTrue(livre.estEmprunte());
 	}
 	
 	/*@Test(expected = OperationImpossible.class)
