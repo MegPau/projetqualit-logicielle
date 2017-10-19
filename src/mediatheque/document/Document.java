@@ -296,4 +296,19 @@ public abstract class Document implements Empruntable, Serializable, HasInvarian
         public boolean invariant() {
                 return !(emprunte && !empruntable);
         }
+        
+        /**
+         * Permet de modifier l'attribut empruntable pour les tests
+         * @param empruntable
+         */
+        public void setEmpruntable(boolean empruntable){
+        	this.empruntable = empruntable;
+        }
+        /**
+         * Permet de modifier l'attribut emprunte pour les tests
+         * @param emprunte
+         */
+        public void setEmprunte(boolean emprunte){
+        	this.emprunte = emprunte;
+        }
 }
