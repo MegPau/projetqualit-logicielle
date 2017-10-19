@@ -16,7 +16,8 @@ import mediatheque.Genre;
 import mediatheque.Localisation;
 import mediatheque.Mediatheque;
 import mediatheque.client.Client;
-import mediatheque.document.Document;;
+import mediatheque.document.Document;
+import mediatheque.document.Livre;;
 
 /**
  * @author Megou
@@ -43,7 +44,8 @@ public class FicheEmpruntTest {
 		endroit = new Localisation("salle404","rayon3");
 		genre = new Genre("genre");
 		
-		docu = new Document("12345",endroit,"titre","auteur","annee",genre);
+		//docu = new Document("12345",endroit,"titre","auteur","annee",genre);
+		docu = new Livre("12345",endroit,"titre","auteur","annee",genre,100);
 		
 		fEmprunt = new FicheEmprunt(media, client, docu);
 		
