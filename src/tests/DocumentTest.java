@@ -17,13 +17,13 @@ import util.InvariantBroken;
 
 public class DocumentTest {
 	
-	Document document1, document2;
+	DocumentStub document1, document2;
 	
 	@Before
 	public void setUp() throws Exception {
 		Localisation localisation = new Localisation("salle1", "rayon 1");
 		Genre genre = new Genre("genre1");
-		document1 = new Livre("aaa", localisation, "titre1", "auteur1", "2002", genre, 200);
+		document1 = new DocumentStub("aaa", localisation, "titre1", "auteur1", "2002", genre);
 	}
 
 	@Test
