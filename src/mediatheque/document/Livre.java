@@ -111,4 +111,12 @@ public final class Livre extends Document {
         public boolean invariantLivre() {
                 return nombrePages > 0 && super.invariant();
         }
+        
+        /**
+         * Permet de modifier le nombre de pages (Test)
+         * @param nb
+         */
+        public void setNbPages(int nb){
+        	this.nombrePages = nb;
+        }
 }

@@ -28,24 +28,63 @@ public class LivreTest {
 	
 	@Test
 	public void emprunterTest1() throws InvariantBroken, OperationImpossible {
-		livre.metEmpruntable();
+		livre.setEmpruntable(true);
+		livre.setEmprunte(false);
 		livre.emprunter();
 		assertTrue(livre.estEmprunte());
 	}
 	
-	/*@Test(expected = OperationImpossible.class)
+	@Test(expected = OperationImpossible.class)
 	public void emprunterTest2() throws InvariantBroken, OperationImpossible {
-		livreempruntenonempruntable.emprunter();
+		livre.setEmpruntable(true);
+		livre.setEmprunte(true);
+		livre.emprunter();
 	}
 	
 	@Test(expected = OperationImpossible.class)
 	public void emprunterTest3() throws InvariantBroken, OperationImpossible {
-		livreemprunteempruntable.emprunter();
-	}*/
+		livre.setEmpruntable(false);
+		livre.setEmprunte(true);
+		livre.emprunter();
+	}
 	
 	@Test(expected = OperationImpossible.class)
 	public void emprunterTest4() throws InvariantBroken, OperationImpossible {
+		livre.setEmpruntable(false);
+		livre.setEmprunte(false);
 		livre.emprunter();
 	}
+	
+	@Test
+	public void invariantLivreTest(){
+		livre.setEmpruntable(false);
+		livre.setEmprunte(true);
+		livre.setNbPages(10);
+		assertFalse(livre.invariantLivre());
+	}
 
+	@Test
+	public void invariantLivre2Test(){
+		livre.setEmpruntable(true);
+		livre.setEmprunte(false);
+		livre.setNbPages(10);
+		assertTrue(livre.invariantLivre());
+	}
+	
+	@Test
+	public void invariantLivre3Test(){
+		livre.setEmpruntable(false);
+		livre.setEmprunte(false);
+		livre.setNbPages(-10);
+		assertFalse(livre.invariantLivre());
+	}
+	
+	@Test
+	public void invariantLivre4Test(){
+		livre.setEmpruntable(true);
+		livre.setEmprunte(true);
+		livre.setNbPages(-10);
+		assertFalse(livre.invariantLivre());
+	}
+	
 }
