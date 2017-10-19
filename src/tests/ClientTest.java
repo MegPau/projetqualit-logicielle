@@ -8,21 +8,26 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import mediatheque.FicheEmprunt;
 import mediatheque.OperationImpossible;
 import mediatheque.client.Client;
 
 public class ClientTest {
 	
 	Client client1, client2;
+	FicheEmprunt emprunt;
 
 	@Before
 	public void setUp() throws Exception {
-		
+		client1 = new Client("Smith", "John");
+		client1.emprunter();
+		client2 = new Client("Doe", "Jane");
 	}
 
 	@Test
 	public void aDesEmpruntsEnCoursTest() {
-		fail("Not yet implemented");
+		assertTrue(client1.aDesEmpruntsEnCours());
+		assertFalse(client2.aDesEmpruntsEnCours());
 	}
 
 	@Test

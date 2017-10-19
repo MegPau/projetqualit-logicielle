@@ -69,6 +69,7 @@ public class MediathequeTest {
 		
 	}
 	
+	/*
 	chercherCatClient
 	supprimerCatClient
 	ajouterCatClient
@@ -99,7 +100,7 @@ public class MediathequeTest {
 	
 	initFromFile
 	saveToFile
-	
+	*/
 	
 	
 }
