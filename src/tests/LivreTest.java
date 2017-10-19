@@ -30,10 +30,10 @@ public class LivreTest {
 	public void emprunterTest1() throws InvariantBroken, OperationImpossible {
 		livre.setEmpruntable(true);
 		livre.setEmprunte(false);
+		int expected = livre.getStat() + 1;
 		livre.emprunter();
-		int expected = livre.getNbEmprunts() + 1;
 		assertTrue("Le livre n'est pas emprunté. ",livre.estEmprunte());
-		assertEquals("Le nombre d'emprunts n'est pas correct. ", expected, livre.getNbEmprunts());
+		assertEquals("Le nombre d'emprunts n'est pas correct. ", expected, livre.getStat());
 	}
 	
 	@Test(expected = OperationImpossible.class)

@@ -125,4 +125,12 @@ public final class Video extends Document {
         public boolean invariantVideo() {
                 return dureeFilm > 0 && super.invariant();
         }
+        
+        /**
+         * Permet de modifier la durée du film (Test)
+         * @param duree
+         */
+        public void setDureeFilm(int duree){
+        	this.dureeFilm = duree;
+        }
 }
