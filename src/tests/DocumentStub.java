@@ -7,6 +7,11 @@ import mediatheque.document.Document;
 
 public class DocumentStub extends Document {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DocumentStub(String code, Localisation localisation, String titre, String auteur, String annee, Genre genre)
 			throws OperationImpossible {
 		super(code, localisation, titre, auteur, annee, genre);

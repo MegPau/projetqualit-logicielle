@@ -489,6 +489,18 @@ public class Client implements Serializable {
         public void setAddresse(String val) {
                 adresse = val;
         }
+        
+        /**
+         * Setter rajouter pour les tests
+         */
+        
+        public void setnbEmpruntsDepasses(int val) {
+    		nbEmpruntsDepasses = val;
+        }
+        
+        public void setnbEmpruntsEncours(int val) {
+        	nbEmpruntsEnCours = val;
+        }
 
         /**
          * Retourne le code de reduction du client
