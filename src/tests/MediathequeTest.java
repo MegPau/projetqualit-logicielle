@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import mediatheque.Mediatheque;
+
 /**
  * @author Megou
  *
@@ -20,8 +22,12 @@ public class MediathequeTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
+	
+	Mediatheque media;
+	
 	@Before
 	public void setUp() throws Exception {
+		media = new Mediatheque("media");
 	}
 
 
