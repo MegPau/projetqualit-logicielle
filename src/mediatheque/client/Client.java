@@ -260,8 +260,7 @@ public class Client implements Serializable {
          *   @return vrai si l'emprunt est possible, faux sinon
          */
         public boolean peutEmprunter() {
-                if (nbEmpruntsDepasses > 0
-                                || nbEmpruntsEnCours >= nbMaxEmprunt()) {
+                if (nbEmpruntsDepasses > 0 || nbEmpruntsEnCours >= nbMaxEmprunt()) {
                         return false;
                 } else {
                         return true;
@@ -288,6 +287,11 @@ public class Client implements Serializable {
                 assert peutEmprunter();
                 nbEmpruntsEffectues++;
                 nbEmpruntsEnCours++;
+        }
+        
+        public FicheEmprunt getLastEmprunt() {
+        	
+        	return lesEmprunts.lastElement();
         }
 
         /**
@@ -501,7 +505,12 @@ public class Client implements Serializable {
         public void setnbEmpruntsEncours(int val) {
         	nbEmpruntsEnCours = val;
         }
-
+        
+        public void setnbEmpruntsEffectues(int val) {
+        	
+        	nbEmpruntsEffectues = val;
+        }
+        
         /**
          * Retourne le code de reduction du client
          */
