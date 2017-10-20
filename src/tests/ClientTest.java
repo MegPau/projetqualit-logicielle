@@ -16,10 +16,11 @@ import mediatheque.OperationImpossible;
 import mediatheque.client.CategorieClient;
 import mediatheque.client.Client;
 import mediatheque.document.Document;
+import util.InvariantBroken;
 
 public class ClientTest {
 	
-	Client client1, client2;
+	Client client1, client2, client3;
 	CategorieClient cat1,cat2;
 	FicheEmprunt emprunt;
 	Mediatheque media;
@@ -47,7 +48,8 @@ public class ClientTest {
 		docu.setEmpruntable(true);
 		client2.setnbEmpruntsDepasses(0);
 		
-		emprunt = new FicheEmprunt(media, client2, docu );
+		client3 = new Client("Yadi","Yada","adresse",cat2);
+		
 	}
 	
 	
@@ -97,21 +99,19 @@ public class ClientTest {
 
 	}
 	
-	@Test
-	public void emprunterTest2(){
+	@Test //a refaire car en faisait la fiche emprunt on a déja incrementé
+	public void emprunterTest2() throws OperationImpossible, InvariantBroken{
 		
-		client2.setnbEmpruntsEncours(0);
-		client2.setnbEmpruntsEffectues(0);
-		client2.setnbEmpruntsDepasses(0);
 
-		int expectedEff = client2.getNbEmpruntsEffectues() + 1;
-		int expectedEnC = client2.getNbEmpruntsEnCours() + 1;
+		int expectedEff = client3.getNbEmpruntsEffectues() + 1;
+		int expectedEnC = client3.getNbEmpruntsEnCours() + 1;
 		
-		client2.emprunter(emprunt);		
+		emprunt = new FicheEmprunt(media, client3, docu );
+		client3.emprunter(emprunt);		
 		
-		assertEquals("L'emprunt a-t-il bien été ajouté",emprunt,client2.getLastEmprunt());
-		assertEquals("Vérification de l'incrémentation de Emprunt effectues",expectedEff,client2.getNbEmpruntsEffectues());
-		assertEquals("Vérification de l'incrémentation de Emprunt en cour ",expectedEnC,client2.getNbEmpruntsEnCours());
+		assertEquals("L'emprunt a-t-il bien été ajouté",emprunt,client3.getLastEmprunt());
+		assertEquals("Vérification de l'incrémentation de Emprunt effectues",expectedEff,client3.getNbEmpruntsEffectues());
+		assertEquals("Vérification de l'incrémentation de Emprunt en cour ",expectedEnC,client3.getNbEmpruntsEnCours());
 
 	}
 	
