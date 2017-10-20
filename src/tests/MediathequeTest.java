@@ -102,11 +102,21 @@ public class MediathequeTest {
 		media.ajouterGenre("genreTest");
 	}
 	
-	/*
+	
 	@Test
-	public void modifierGenreTest() {
-		fail("Not yet implemented");
+	public void modifierGenreTest() throws OperationImpossible {
+		media.ajouterGenre("genreTest");
+		media.modifierGenre("genreTest", "nouveauGenreTest");
+		assertEquals("Genre non changé", new Genre("nouveauGenreTest"), media.chercherGenre("nouveauGenreTest"));
+		assertEquals("Ancien genre toujours existant", null, media.chercherGenre("genreTest"));
 	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void modifierGenreInexistantTest() throws OperationImpossible {
+		media.modifierGenre("genreTest", "nouveauGenreTest");
+	}
+	
+	/*
 	@Test
 	public void listerGenresTest(){
 		fail("Not yet implemented");
