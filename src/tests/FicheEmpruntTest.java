@@ -29,9 +29,9 @@ import util.InvariantBroken;;
 public class FicheEmpruntTest {
 
 	Mediatheque media;
-	Client client;
+	Client client, client2;
 	CategorieClient catClient;
-	Document docu;
+	Document docu, docu2;
 	Localisation endroit;
 	Genre genre;
 	FicheEmprunt fEmprunt;
@@ -46,9 +46,11 @@ public class FicheEmpruntTest {
 		media = new Mediatheque("Media1");
 		catClient = new CategorieClient("cat", 8, 2, 2, 2, true);
 		client = new Client("Haikal","Pierre", "25 rue du soleil", catClient, 25);
+		client2 = new Client("Pau","Megane","35 rue de la lune", catClient, 41);
 		endroit = new Localisation("salle404","rayon3");
 		genre = new Genre("genre");
 		docu = new DocumentStub("12345",endroit,"titre","auteur","annee",genre);
+		docu2 = new DocumentStub("147", endroit,"titre", "auteur", "annee", genre);
 		docu.setEmpruntable(true);
 		
 		fEmprunt = new FicheEmprunt(media, client, docu);
@@ -61,13 +63,17 @@ public class FicheEmpruntTest {
 	public void correspondTest(){
 		assertTrue("Erreur dans la correspondance entre client et document emprunté.",fEmprunt.correspond(client, docu));
 	}
-	
-	
-	
+	@Test
+	public void correspond2Test(){
+		assertFalse("Document non emprunté par le client considéré comme tel. ", fEmprunt.correspond(client, docu2));
+		assertFalse("Client ne correspondant pas à l'emprunt considéré comme tel. ", fEmprunt.correspond(client2, docu));
+		assertFalse("Document et client non ne correspondant pas à l'emprunt considéré comme tel. ", fEmprunt.correspond(client2, docu2));
+	}
 	
 	@Test
 	public void restituerTest() throws InvariantBroken, OperationImpossible{
-		fEmprunt.restituer();
+		//fEmprunt.restituer();
+		// BESOIN DE CLIENT SNIF
 	}
 	
 	
