@@ -15,9 +15,12 @@ import mediatheque.FicheEmprunt;
 import mediatheque.Genre;
 import mediatheque.Localisation;
 import mediatheque.Mediatheque;
+import mediatheque.OperationImpossible;
+import mediatheque.client.CategorieClient;
 import mediatheque.client.Client;
 import mediatheque.document.Document;
-import mediatheque.document.Livre;;
+import mediatheque.document.Livre;
+import util.InvariantBroken;;
 
 /**
  * @author Megou
@@ -27,6 +30,7 @@ public class FicheEmpruntTest {
 
 	Mediatheque media;
 	Client client;
+	CategorieClient catClient;
 	Document docu;
 	Localisation endroit;
 	Genre genre;
@@ -40,47 +44,42 @@ public class FicheEmpruntTest {
 	public void setUp() throws Exception {
 		
 		media = new Mediatheque("Media1");
-		client = new Client("Haikal","Pierre");
+		catClient = new CategorieClient("cat", 8, 2, 2, 2, true);
+		client = new Client("Haikal","Pierre", "25 rue du soleil", catClient, 25);
 		endroit = new Localisation("salle404","rayon3");
 		genre = new Genre("genre");
-		
-		//docu = new Document("12345",endroit,"titre","auteur","annee",genre);
-		docu = new Livre("12345",endroit,"titre","auteur","annee",genre,100);
+		docu = new DocumentStub("12345",endroit,"titre","auteur","annee",genre);
+		docu.setEmpruntable(true);
 		
 		fEmprunt = new FicheEmprunt(media, client, docu);
 		
 		
 	}
 
-
-	@Test
-	public void verifierTest() {
-		//assertTrue()
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void premierRappelTest(){
-		
-	}
-	
-	@Test
-	public void relancerTest(){
-		
-	}
 	
 	@Test
 	public void correspondTest(){
-		assertTrue("client haikalp docu",fEmprunt.correspond(client, docu));
+		assertTrue("Erreur dans la correspondance entre client et document emprunté.",fEmprunt.correspond(client, docu));
+	}
+	
+	
+	
+	
+	@Test
+	public void restituerTest() throws InvariantBroken, OperationImpossible{
+		fEmprunt.restituer();
+	}
+	
+	
+	@Test
+	public void changementCategorieTest() throws OperationImpossible{
+		fEmprunt.setDepasse(true);
+		assertTrue("L'emprunt n'est pas considéré comme dépassé. ", fEmprunt.changementCategorie());
 	}
 	
 	@Test
-	public void restituerTest(){
-		
-	}
-	
-	@Test
-	public void changementCategorieTest(){
-		
+	public void changementCategorie2Test() throws OperationImpossible{
+		fEmprunt.setDepasse(false);
+		assertFalse("L'emprunt est considéré comme dépassé. ",fEmprunt.changementCategorie());
 	}
 }

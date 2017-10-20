@@ -208,4 +208,12 @@ public class FicheEmprunt implements Serializable {
         public static void afficherStatistiques() {
                 System.out.println("Nombre total d'emprunts = " + nbEmpruntsTotal);
         }
+        
+        /**
+         * Permet de modifier la valeur depasse (test)
+         * @param depasse
+         */
+        public void setDepasse(boolean depasse){
+        	this.depasse = depasse;
+        }
 }
