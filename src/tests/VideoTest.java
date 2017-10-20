@@ -44,7 +44,7 @@ public class VideoTest {
 		assertEquals("La mention légale n'est pas correctement introduite.", "mention", video2.getMentionLegale());
 	}
 	
-	@Test(expected = OperationImpossible.class)
+	@Test(expected = InvariantBroken.class)
 	public void constructeurVideoDureeNegTest() throws OperationImpossible, InvariantBroken{
 		Localisation loca = new Localisation("salle1", "rayon 1");
 		Genre genr = new Genre("genre1");
