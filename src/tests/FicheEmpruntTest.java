@@ -74,6 +74,7 @@ public class FicheEmpruntTest {
 	public void restituerTest() throws InvariantBroken, OperationImpossible{
 		//fEmprunt.restituer();
 		// BESOIN DE CLIENT SNIF
+		
 	}
 	
 	

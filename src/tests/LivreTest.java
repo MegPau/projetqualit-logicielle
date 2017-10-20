@@ -27,6 +27,44 @@ public class LivreTest {
 	}
 	
 	@Test
+	public void constructeurLivreTest() throws OperationImpossible, InvariantBroken{
+		Localisation loca = new Localisation("salle1", "rayon 1");
+		Genre genr = new Genre("genre1");
+		Livre livre2 = new Livre("aaa", loca, "titre1", "auteur1", "2002", genr, 200);
+		assertEquals("Le code n'est pas introduit dans le document. ","aaa",livre2.getCode());
+		assertEquals("La localisation n'est pas introduite dans le document.", loca, livre2.getLocalisation());
+		assertEquals("Le titre n'est pas introduit dans le document.", "titre1", livre2.getTitre());
+		assertEquals("L'auteur n'est pas introduit dans le document. ", "auteur1", livre2.getAuteur());
+		assertEquals("L'année n'est pas introduite dans le document. ", "2002", livre2.getAnnee());
+		assertEquals("Le genre n'est pas introduit dans le document", genr, livre2.getGenre());
+		assertFalse("Le document est initialisé en tant qu'empruntable", livre2.estEmpruntable());
+		assertFalse("Le document est initialisé en tant qu'emprunté.", livre2.estEmprunte());
+		assertEquals("Le nombre d'emprunts n'est pas initialisé à 0", 0, livre2.getNbEmprunts());
+		assertEquals("Le nombre de pages n'est pas correctement introduit.", 200, livre2.getNbPages());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void constructeurLivrePagesNegTest() throws OperationImpossible, InvariantBroken{
+		Localisation loca = new Localisation("salle1", "rayon 1");
+		Genre genr = new Genre("genre1");
+		Livre livre2 = new Livre("aaa", loca, "titre1", "auteur1", "2002", genr, -10);
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void constructeurLivreDocNullTest() throws OperationImpossible, InvariantBroken{
+		Localisation loca = new Localisation("salle1", "rayon 1");
+		Genre genr = null;
+		Livre livre2 = new Livre("aaa", loca, "titre1", "auteur1", "2002", genr, 100);
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void constructeurLivreDocNullPageNegTest() throws OperationImpossible, InvariantBroken{
+		Localisation loca = new Localisation("salle1", "rayon 1");
+		Genre genr = new Genre("genre1");
+		Livre livre2 = new Livre(null, loca, "titre1", "auteur1", "2002", genr, -10);
+	}
+	
+	@Test
 	public void emprunterTest1() throws InvariantBroken, OperationImpossible {
 		livre.setEmpruntable(true);
 		livre.setEmprunte(false);

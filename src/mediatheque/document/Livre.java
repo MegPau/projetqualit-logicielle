@@ -119,4 +119,11 @@ public final class Livre extends Document {
         public void setNbPages(int nb){
         	this.nombrePages = nb;
         }
+        /**
+         * Permet de récupérer le nombre de pages (Test)
+         * @return
+         */
+        public int getNbPages(){
+        	return this.nombrePages;
+        }
 }
