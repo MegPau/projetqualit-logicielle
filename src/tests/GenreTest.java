@@ -29,6 +29,14 @@ public class GenreTest {
 	}
 	
 	@Test
+	public void constructeurGenreTest(){
+		Genre genre2 = new Genre("romance");
+		assertEquals("Le nom du genre n'est pas introduit.", "romance", genre2.getNom());
+		assertEquals("Le nombre initial d'emprunts n'est pas initialisé à 0", 0, genre2.getNbEmprunts());
+	}
+	
+	
+	@Test
 	public void emprunterTest() {
 		int expected;
 		expected = genre1.getNbEmprunts() + 1;
