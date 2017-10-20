@@ -511,6 +511,11 @@ public class Client implements Serializable {
         	nbEmpruntsEffectues = val;
         }
         
+        public int getnbEmpruntsDepasses() {
+        	
+        	return this.nbEmpruntsDepasses;
+        }
+        
         /**
          * Retourne le code de reduction du client
          */

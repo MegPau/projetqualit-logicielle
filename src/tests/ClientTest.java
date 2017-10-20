@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.NoSuchElementException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -49,11 +51,10 @@ public class ClientTest {
 		client2.setnbEmpruntsDepasses(0);
 		
 		client3 = new Client("Yadi","Yada","adresse",cat2);
-		
+		emprunt = new FicheEmprunt(media, client3, docu );
 	}
 	
 	
-
 	@Test
 	public void aDesEmpruntsEnCoursTest() {
 		client1.setnbEmpruntsEncours(1);		
@@ -106,7 +107,7 @@ public class ClientTest {
 		int expectedEff = client3.getNbEmpruntsEffectues() + 1;
 		int expectedEnC = client3.getNbEmpruntsEnCours() + 1;
 		
-		emprunt = new FicheEmprunt(media, client3, docu );
+		
 		client3.emprunter(emprunt);		
 		
 		assertEquals("L'emprunt a-t-il bien été ajouté",emprunt,client3.getLastEmprunt());
@@ -115,18 +116,51 @@ public class ClientTest {
 
 	}
 	
+	
+	@Test(expected = OperationImpossible.class)
+	public void marquerTest() throws OperationImpossible{
+		
+		client1.setnbEmpruntsDepasses(1);
+		client1.setnbEmpruntsEncours(1);
+		
+		client1.marquer();			
+		
+	}
+	
+	@Test
+	public void marquerTest2() throws OperationImpossible
+	{
+		client1.setnbEmpruntsDepasses(0);
+		client1.setnbEmpruntsEncours(1);
+		
+		int expectednbED = client1.getnbEmpruntsDepasses() + 1;
+		
+		client1.marquer();
+				
+		assertEquals("Vérification de l'incrementation de nbEmpruntsDepasses",expectednbED,client1.getnbEmpruntsDepasses());
+		
+		
+	}
+	
+	
+	@Test(expected = NoSuchElementException.class)
+	public void restituerTest() throws OperationImpossible{
+		
+		client3.restituer(emprunt);
+		
+		client3.getLastEmprunt();
+		
+	}
 	/*
-	@Test
-	public void marquerTest(){
-		fail("Not yes implemented");
+	@Test(expected = OperationImpossible.class)
+	public void restituerTest2() throws OperationImpossible{
+		
+		client3.restituer(emprunt);
+		
+		client3.getLastEmprunt();
+		
 	}
-	
-	
-	@Test
-	public void restituerTest(){
-		fail("Not yes implemented");
-	}
-	
+	/*
 	@Test
 	public void restituerEnRetardTest(){
 		fail("Not yes implemented");
