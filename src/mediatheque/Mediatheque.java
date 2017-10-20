@@ -1012,5 +1012,8 @@ public final class Mediatheque implements Serializable {
                 }
                 return true;
         }
+        public void setDebug(boolean debug){
+        	this.debug = debug;
+        }
 }
 
