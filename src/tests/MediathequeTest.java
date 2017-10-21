@@ -45,6 +45,8 @@ public class MediathequeTest {
 		media3.setDebug(true);
 		media3.ajouterLocalisation("salleTest2", "rayonTest2");
 		media3.ajouterGenre("genreTest2");
+		media3.ajouterCatClient("catTest2", 20, 8, 2, 3, true);
+		media3.inscrire("Smith", "John", "57 rue du melon", "catTest2");
 		DocumentStub doc = new DocumentStub("aaa", media3.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
 		media3.ajouterDocument(doc);
 	}
@@ -172,7 +174,7 @@ public class MediathequeTest {
 		media.ajouterLocalisation("salleTest", "rayonTest");
 		media.modifierLocalisation(media.chercherLocalisation("salleTest", "rayonTest"), "nouvelleSalle", "nouveauRayon");
 		assertEquals("Localisation non changée", new Localisation("nouvelleSalle", "nouveauRayon"), media.chercherLocalisation("nouvelleSalle", "nouveauRayon"));
-		assertEquals("Ancienne Localisation toujours existante", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
+		assertEquals("Ancienne Localisation toujours existante", null, media.chercherLocalisation("salleTest", "rayonTest"));
 	}
 	
 	@Test(expected = OperationImpossible.class)
@@ -182,29 +184,25 @@ public class MediathequeTest {
 	}
 	
 	
-	/*
 	
-	chercherCatClient
-	supprimerCatClient
-	ajouterCatClient
-	modifierCatClient
+	
 	@Test
-	public void supprimerLocalisationTest() throws OperationImpossible{
-		media.ajouterLocalisation("salleTest", "rayonTest");
-		media.supprimerLocalisation("salleTest", "rayonTest");
-		assertEquals("La localisation n'a pas été supprimée", null, media.chercherLocalisation("salleTest", "rayonTest"));
+	public void supprimerCatClientTest() throws OperationImpossible{
+		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
+		media.supprimerCatClient("catTest");
+		assertEquals("La catégorie client n'a pas été supprimée", null, media.chercherCatClient("catTest"));
 	}
 	
 	@Test(expected = OperationImpossible.class)
-	public void supprimerLocalisationInexistanteTest() throws OperationImpossible {
-		media.supprimerLocalisation("salleTest", "rayonTest");
+	public void supprimerCatClientInexistanteTest() throws OperationImpossible {
+		media.supprimerCatClient("catTest");
 	}
 	
 	@Test(expected = OperationImpossible.class)
-	public void supprimerLocalisationAvecDocumentTest() throws OperationImpossible {
-		media3.supprimerLocalisation("salleTest2", "rayonTest2");
+	public void supprimerCatClientAvecClientTest() throws OperationImpossible {
+		media3.supprimerCatClient("catTest2");
 	}
-	*/
+	
 	@Test
 	public void chercherCatClientTest() throws OperationImpossible{
 		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
@@ -217,36 +215,41 @@ public class MediathequeTest {
 	public void chercherCatClientInexistanteTest() throws OperationImpossible{
 		assertEquals("La catégorie client inexistante à été trouvée.",null,media.chercherCatClient("catTest"));
 	}
-	/*
+	
+	
+	
 	@Test
-	public void ajouterLocalisationTest() throws OperationImpossible{
-		int initialSize = media.getLocalisationsSize();
-		media.ajouterLocalisation("salleTest", "rayonTest");
-		assertEquals("La localisation n'est pas ajoutée à la liste des locallisations : nombre de localisations non incrémenté", initialSize+1,media.getLocalisationsSize());
-		assertEquals("La localisation n'est pas ajoutée à la liste des localisations : salle introuvable dans la liste", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
+	public void ajouterCatClientTest() throws OperationImpossible{
+		int initialSize = media.getCategoriesSize();
+		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
+		assertEquals("La catégorie client n'est pas ajoutée à la liste des locallisations : nombre de catégories client non incrémenté", initialSize+1,media.getCategoriesSize());
+		assertEquals("La catégorie client n'est pas ajoutée à la liste des localisations : catégorie client introuvable dans la liste", new CategorieClient("catTest"), media.chercherCatClient("catTest"));
+	}
+	
+	
+	@Test(expected = OperationImpossible.class)
+	public void ajouterCatClientExistante() throws OperationImpossible{
+		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
+		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
+	}
+	
+	
+	
+	@Test
+	public void modifierCatClientTest() throws OperationImpossible{
+		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
+		media.modifierCatClient(media.chercherCatClient("catTest"), "nouvelleCatTest", 15, 6, 3, 4, false);
+		assertEquals("Catégorie client non changée", new CategorieClient("nouvelleCatTest", 15, 6, 3, 4, false), media.chercherCatClient("nouvelleCatTest"));
+		assertEquals("Ancienne Catégorie client toujours existante", null, media.chercherCatClient("catTest"));
 	}
 	
 	@Test(expected = OperationImpossible.class)
-	public void ajouterLocalisationExistante() throws OperationImpossible{
-		media.ajouterLocalisation("salleTest", "rayonTest");
-		media.ajouterLocalisation("salleTest", "rayonTest");
-	}
-	
-	@Test
-	public void modifierLocalisationTest() throws OperationImpossible{
-		media.ajouterLocalisation("salleTest", "rayonTest");
-		media.modifierLocalisation(media.chercherLocalisation("salleTest", "rayonTest"), "nouvelleSalle", "nouveauRayon");
-		assertEquals("Localisation non changée", new Localisation("nouvelleSalle", "nouveauRayon"), media.chercherLocalisation("nouvelleSalle", "nouveauRayon"));
-		assertEquals("Ancienne Localisation toujours existante", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
-	}
-	
-	@Test(expected = OperationImpossible.class)
-	public void modifierLocalisationInexistanteTest() throws OperationImpossible {
-		Localisation localisationInexistante = new Localisation("sT","rT");
-		media.modifierLocalisation(localisationInexistante,"salleTest", "rayonTest");
+	public void modifierCatClientInexistanteTest() throws OperationImpossible {
+		CategorieClient catClientInexistante = new CategorieClient("catT");
+		media.modifierCatClient(catClientInexistante,"nouvelleCatTest", 15, 6, 3, 4, false);
 	}
 
-	
+	/*
 	chercherDocument
 	ajouterDocument
 	retirerDocument
