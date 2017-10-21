@@ -34,12 +34,19 @@ public class MediathequeTest {
 	 * @throws java.lang.Exception
 	 */
 	
-	Mediatheque media;
+	Mediatheque media, media3;
 	
 	@Before
 	public void setUp() throws Exception {
 		media = new Mediatheque("media");
 		media.setDebug(true);
+		
+		media3 = new Mediatheque("media3");
+		media3.setDebug(true);
+		media3.ajouterLocalisation("salleTest2", "rayonTest2");
+		media3.ajouterGenre("genreTest2");
+		DocumentStub doc = new DocumentStub("aaa", media3.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
+		media3.ajouterDocument(doc);
 	}
 
 
@@ -58,7 +65,9 @@ public class MediathequeTest {
 	@Test
 	public void chercherGenreTest() throws OperationImpossible {
 		media.ajouterGenre("genreTest");
+		media.ajouterGenre("genreTest2");
 		assertEquals("Le genre n'est pas trouvé dans la liste", new Genre("genreTest"), media.chercherGenre("genreTest"));
+		assertEquals("Le genre2 n'est pas trouvé dans la liste", new Genre("genreTest2"), media.chercherGenre("genreTest2"));
 	}
 	
 	@Test
@@ -80,11 +89,7 @@ public class MediathequeTest {
 	
 	@Test(expected = OperationImpossible.class)
 	public void supprimerGenreAvecDocumentTest() throws OperationImpossible {
-		media.ajouterGenre("genreTest");
-		Localisation localisation = new Localisation("a","b");
-		DocumentStub doc = new DocumentStub("aaa", localisation, "titre1", "auteur1", "2002", media.chercherGenre("genreTest"));
-		media.ajouterDocument(doc);
-		media.supprimerGenre("genreTest");
+		media3.supprimerGenre("genreTest2");
 	}
 	
 	
@@ -116,41 +121,130 @@ public class MediathequeTest {
 		media.modifierGenre("genreTest", "nouveauGenreTest");
 	}
 	
+	
+	
+	@Test
+	public void supprimerLocalisationTest() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.supprimerLocalisation("salleTest", "rayonTest");
+		assertEquals("La localisation n'a pas été supprimée", null, media.chercherLocalisation("salleTest", "rayonTest"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void supprimerLocalisationInexistanteTest() throws OperationImpossible {
+		media.supprimerLocalisation("salleTest", "rayonTest");
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void supprimerLocalisationAvecDocumentTest() throws OperationImpossible {
+		media3.supprimerLocalisation("salleTest2", "rayonTest2");
+	}
+	
+	@Test
+	public void chercherLocalisationTest() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.ajouterLocalisation("salleTest2", "rayonTest2");
+		assertEquals("La localisation localisationTest n'est pas trouvée dans la liste", new Localisation("salleTest","rayonTest"), media.chercherLocalisation("salleTest","rayonTest"));
+		assertEquals("La localisation localisationTest2 n'est pas trouvée dans la liste", new Localisation("salleTest2","rayonTest2"), media.chercherLocalisation("salleTest2","rayonTest2"));
+	}
+	
+	@Test
+	public void chercherLocalisationInexistanteTest() throws OperationImpossible{
+		assertEquals("La localisation inexistante à été trouvée.",null,media.chercherLocalisation("salleTest","rayonTest"));
+	}
+	
+	@Test
+	public void ajouterLocalisationTest() throws OperationImpossible{
+		int initialSize = media.getLocalisationsSize();
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		assertEquals("La localisation n'est pas ajoutée à la liste des locallisations : nombre de localisations non incrémenté", initialSize+1,media.getLocalisationsSize());
+		assertEquals("La localisation n'est pas ajoutée à la liste des localisations : salle introuvable dans la liste", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void ajouterLocalisationExistante() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.ajouterLocalisation("salleTest", "rayonTest");
+	}
+	
+	@Test
+	public void modifierLocalisationTest() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.modifierLocalisation(media.chercherLocalisation("salleTest", "rayonTest"), "nouvelleSalle", "nouveauRayon");
+		assertEquals("Localisation non changée", new Localisation("nouvelleSalle", "nouveauRayon"), media.chercherLocalisation("nouvelleSalle", "nouveauRayon"));
+		assertEquals("Ancienne Localisation toujours existante", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void modifierLocalisationInexistanteTest() throws OperationImpossible {
+		Localisation localisationInexistante = new Localisation("sT","rT");
+		media.modifierLocalisation(localisationInexistante,"salleTest", "rayonTest");
+	}
+	
+	
 	/*
-	@Test
-	public void listerGenresTest(){
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void supprimerLocalisationTest(){
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void chercherLocalisationTest(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void ajouterLocalisationTest(){
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void modifierLocalisationTest(){
-		fail("Not yet implemented");
-	}
-	@Test
-	public void listerLocalisationsTest(){
-		fail("Not yet implemented");
-	}
-	
 	
 	chercherCatClient
 	supprimerCatClient
 	ajouterCatClient
 	modifierCatClient
-	listerCatsClient
+	@Test
+	public void supprimerLocalisationTest() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.supprimerLocalisation("salleTest", "rayonTest");
+		assertEquals("La localisation n'a pas été supprimée", null, media.chercherLocalisation("salleTest", "rayonTest"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void supprimerLocalisationInexistanteTest() throws OperationImpossible {
+		media.supprimerLocalisation("salleTest", "rayonTest");
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void supprimerLocalisationAvecDocumentTest() throws OperationImpossible {
+		media3.supprimerLocalisation("salleTest2", "rayonTest2");
+	}
+	*/
+	@Test
+	public void chercherCatClientTest() throws OperationImpossible{
+		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
+		media.ajouterCatClient("catTest2", 20, 8, 2, 3, true);
+		assertEquals("La catégorie client catTest n'est pas trouvée dans la liste", new CategorieClient("catTest", 20, 8, 2, 3, true), media.chercherCatClient("catTest"));
+		assertEquals("La catégorie client catTest2 n'est pas trouvée dans la liste", new CategorieClient("catTest2", 20, 8, 2, 3, true), media.chercherCatClient("catTest2"));
+	}
+	
+	@Test
+	public void chercherCatClientInexistanteTest() throws OperationImpossible{
+		assertEquals("La catégorie client inexistante à été trouvée.",null,media.chercherCatClient("catTest"));
+	}
+	/*
+	@Test
+	public void ajouterLocalisationTest() throws OperationImpossible{
+		int initialSize = media.getLocalisationsSize();
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		assertEquals("La localisation n'est pas ajoutée à la liste des locallisations : nombre de localisations non incrémenté", initialSize+1,media.getLocalisationsSize());
+		assertEquals("La localisation n'est pas ajoutée à la liste des localisations : salle introuvable dans la liste", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void ajouterLocalisationExistante() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.ajouterLocalisation("salleTest", "rayonTest");
+	}
+	
+	@Test
+	public void modifierLocalisationTest() throws OperationImpossible{
+		media.ajouterLocalisation("salleTest", "rayonTest");
+		media.modifierLocalisation(media.chercherLocalisation("salleTest", "rayonTest"), "nouvelleSalle", "nouveauRayon");
+		assertEquals("Localisation non changée", new Localisation("nouvelleSalle", "nouveauRayon"), media.chercherLocalisation("nouvelleSalle", "nouveauRayon"));
+		assertEquals("Ancienne Localisation toujours existante", new Localisation("salleTest", "rayonTest"), media.chercherLocalisation("salleTest", "rayonTest"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void modifierLocalisationInexistanteTest() throws OperationImpossible {
+		Localisation localisationInexistante = new Localisation("sT","rT");
+		media.modifierLocalisation(localisationInexistante,"salleTest", "rayonTest");
+	}
 
 	
 	chercherDocument
