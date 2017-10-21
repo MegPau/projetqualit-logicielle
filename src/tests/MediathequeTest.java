@@ -23,6 +23,7 @@ import mediatheque.client.CategorieClient;
 import mediatheque.client.Client;
 import mediatheque.client.HashClient;
 import mediatheque.document.Document;
+import util.InvariantBroken;
 
 /**
  * @author Megou
@@ -302,11 +303,33 @@ public class MediathequeTest {
 	public void retirerDocumentInexistantTest() throws OperationImpossible{
 		media3.retirerDocument("rrr");
 	}
-	/*
 	
-	metEmpruntable
-	metConsultable
-	listerDocuments
+	
+	
+	@Test
+	public void metEmpruntableTest() throws OperationImpossible, InvariantBroken{
+		media3.metEmpruntable("aaa");
+		assertTrue("Le document n'est pas empruntable.",media3.chercherDocument("aaa").estEmpruntable());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void metEmpruntableDocInexistantTest() throws OperationImpossible, InvariantBroken{
+		media3.metEmpruntable("fff");
+	}
+	
+	@Test
+	public void metConsultableTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.metConsultable("aaa");
+		assertFalse("Le document n'est pas uniquement consultable.", media3.chercherDocument("aaa").estEmpruntable());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void metConsultableDocInexistantTest() throws OperationImpossible, InvariantBroken{
+		media3.metConsultable("hhh");
+	}
+	
+	/*listerDocuments
 	existeDocument
 
 	
