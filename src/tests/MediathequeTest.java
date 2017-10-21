@@ -285,10 +285,25 @@ public class MediathequeTest {
 		DocumentStub docu = new DocumentStub("eee", media3.chercherLocalisation("salleRandom", "rayonRandom"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
 		media3.ajouterDocument(docu);
 	}
-	
+	@Test
+	public void retirerDocumentTest() throws OperationImpossible{
+		media3.retirerDocument("aaa");
+		assertEquals("Le document n'est pas retiré", null,media3.chercherDocument("aaa"));
+	}
+	@Test(expected = OperationImpossible.class)
+	public void retirerDocumentEmprunteTest() throws OperationImpossible{
+		DocumentStub docu = new DocumentStub("eee", media3.chercherLocalisation("salleRandom", "rayonRandom"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
+		docu.setEmprunte(true);
+		docu.setEmpruntable(true);
+		media3.ajouterDocument(docu);
+		media3.retirerDocument("eee");
+	}
+	@Test(expected = OperationImpossible.class)
+	public void retirerDocumentInexistantTest() throws OperationImpossible{
+		media3.retirerDocument("rrr");
+	}
 	/*
 	
-	retirerDocument
 	metEmpruntable
 	metConsultable
 	listerDocuments
