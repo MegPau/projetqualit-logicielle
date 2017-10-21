@@ -329,12 +329,120 @@ public class MediathequeTest {
 		media3.metConsultable("hhh");
 	}
 	
-	/*listerDocuments
-	existeDocument
+	@Test
+	public void existeDocumentTest(){
+		assertTrue("Le document n'est pas trouvé.", media3.existeDocument(media3.chercherLocalisation("salleTest2", "rayonTest2")));
+	}
 
+	@Test
+	public void existeDocumentInexistantTest() throws OperationImpossible{
+		media3.ajouterLocalisation("salle4", "rayon4");
+		assertFalse("Un document inexistant est trouvé.", media3.existeDocument(media3.chercherLocalisation("salle4", "rayon4")));
+	}
 	
-	emprunter
-	restituer
+	@Test
+	public void existeDocumentLocalisationInexistanteTest(){
+		assertFalse("Un document est trouvé dans une localisation inexistante.", media3.existeDocument(media3.chercherLocalisation("salle4", "rayon4")));
+	}
+	
+	@Test
+	public void emprunterTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.chercherDocument("aaa").setEmprunte(false);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEncours(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsDepasses(0);
+		int expectedSize = media3.getFicheEmpruntsSize() + 1;
+		media3.emprunter("Smith","John", "aaa");
+		assertEquals("La liste des emprunts n'a pas été incrémentée correctement.", expectedSize, media3.getFicheEmpruntsSize());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void emprunterDocInexistantTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherClient("Smith", "John").setnbEmpruntsEncours(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsDepasses(0);
+		media3.emprunter("Smith","John", "llll");
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void emprunterDocNonEmpruntableTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(false);
+		media3.chercherDocument("aaa").setEmprunte(false);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEncours(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsDepasses(0);
+		media3.emprunter("Smith","John", "aaa");
+	}
+	@Test(expected = OperationImpossible.class)
+	public void emprunterDocEmprunteTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.chercherDocument("aaa").setEmprunte(true);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEncours(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsDepasses(0);
+		media3.emprunter("Smith","John", "aaa");
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void emprunterClientInexistantTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.chercherDocument("aaa").setEmprunte(false);
+		media3.emprunter("Doe","Jane", "aaa");
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void emprunterClientNePeutPasEmprunterTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.chercherDocument("aaa").setEmprunte(false);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEncours(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsDepasses(1);
+		media3.emprunter("Smith","John", "aaa");
+	}
+	
+	@Test
+	public void restituerTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.chercherDocument("aaa").setEmprunte(false);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEncours(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Smith", "John").setnbEmpruntsDepasses(0);
+		media3.emprunter("Smith","John", "aaa");
+		int expectedSize = media3.getFicheEmpruntsSize() - 1;
+		media3.restituer("Smith", "John", "aaa");
+		assertEquals("La liste des emprunts n'est pas décrémentée.", expectedSize,media3.getFicheEmpruntsSize());
+	}
+	@Test(expected = OperationImpossible.class)
+	public void restituerDocInexistantTest() throws OperationImpossible, InvariantBroken{
+		media3.restituer("Smith","John", "hhhhh");
+	}
+	@Test(expected = OperationImpossible.class)
+	public void restituerClientInexistantTest() throws OperationImpossible, InvariantBroken{
+		media3.chercherDocument("aaa").setEmpruntable(true);
+		media3.chercherDocument("aaa").setEmprunte(false);
+		media3.restituer("Doe","Jane", "aaa");
+	}
+	@Test(expected = OperationImpossible.class)
+	public void restituerClientDocNonCorrespondantsTest() throws OperationImpossible, InvariantBroken{
+		media3.ajouterLocalisation("salleTest45", "rayonTest45");
+		media3.ajouterGenre("genreTest45");
+		DocumentStub document = new DocumentStub("oooo", media3.chercherLocalisation("salleTest45", "rayonTest45"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest45"));
+		document.setEmpruntable(true);
+		document.setEmprunte(false);
+		media3.ajouterDocument(document);
+		
+		media3.ajouterCatClient("catTest45", 20, 8, 2, 3, true);
+		media3.inscrire("Doe", "Jane", "57 rue du melon", "catTest45");
+		
+		media3.chercherClient("Doe", "Jane").setnbEmpruntsEncours(0);
+		media3.chercherClient("Doe", "Jane").setnbEmpruntsEffectues(0);
+		media3.chercherClient("Doe", "Jane").setnbEmpruntsDepasses(0);
+		media3.emprunter("Doe","Jane", "oooo");
+		
+		media3.restituer("Smith", "John", "oooo");
+	}
+	/*
 	verifier
 	
 	inscrire

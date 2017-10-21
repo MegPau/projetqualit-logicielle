@@ -529,7 +529,7 @@ public final class Mediatheque implements Serializable {
          *    @param l Localisation du document a chercher
          *    @return true s'il en existe un false sinon
          */
-        private boolean existeDocument(Localisation l) {
+        public boolean existeDocument(Localisation l) {
                 Enumeration<Document> e = lesDocuments.elements();
                 Document d = null;
                 while (e.hasMoreElements()) {
