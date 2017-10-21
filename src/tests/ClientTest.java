@@ -22,13 +22,13 @@ import util.InvariantBroken;
 
 public class ClientTest {
 	
-	Client client1, client2, client3;
+	Client client1, client2, client3,client4;
 	CategorieClient cat1,cat2;
-	FicheEmprunt emprunt;
-	Mediatheque media;
-	DocumentStub docu;
-	Localisation local;
-	Genre genre;
+	FicheEmprunt emprunt,emprunt1;
+	Mediatheque media,media1;
+	DocumentStub docu,docu1;
+	Localisation local,local1;
+	Genre genre,genre1;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -52,6 +52,14 @@ public class ClientTest {
 		
 		client3 = new Client("Yadi","Yada","adresse",cat2);
 		emprunt = new FicheEmprunt(media, client3, docu );
+		
+		client4 = new Client("Yo","lo","adresse4",cat2);
+		genre1 = new Genre("genre1");
+		local1 = new Localisation("salle2","rayon2");
+		docu1 = new DocumentStub("12345",local1,"titre1","auteur1","annee1",genre1);
+		docu1.setEmpruntable(true);
+		media1 = new Mediatheque("media1");
+		emprunt1 = new FicheEmprunt(media1, client4, docu1);
 	}
 	
 	
@@ -120,7 +128,7 @@ public class ClientTest {
 	@Test(expected = OperationImpossible.class)
 	public void marquerTest() throws OperationImpossible{
 		
-		client1.setnbEmpruntsDepasses(1);
+		client1.setnbEmpruntsDepasses(2);
 		client1.setnbEmpruntsEncours(1);
 		
 		client1.marquer();			
@@ -151,34 +159,62 @@ public class ClientTest {
 		client3.getLastEmprunt();
 		
 	}
-	/*
+	
+	//Expected "Restituer sans emprunt" operation impossible
 	@Test(expected = OperationImpossible.class)
 	public void restituerTest2() throws OperationImpossible{
-		
-		client3.restituer(emprunt);
-		
-		client3.getLastEmprunt();
+				
+		client3.setnbEmpruntsEncours(0);
+		client3.restituer(true);	
 		
 	}
-	/*
+	
+	//Expected "Restituer en retard sans retard" operation impossible
+	@Test(expected = OperationImpossible.class)
+	public void restituerTest3() throws OperationImpossible{
+				
+		client3.setnbEmpruntsEncours(1);
+		client3.setnbEmpruntsDepasses(0);
+		client3.restituer(true);	
+		
+	}
+	
+	
 	@Test
-	public void restituerEnRetardTest(){
-		fail("Not yes implemented");
+	public void restituerTest4() throws OperationImpossible{
+				
+		client3.setnbEmpruntsEncours(1);
+		client3.setnbEmpruntsDepasses(1);
+		
+		int expectednbED = client3.getnbEmpruntsDepasses() - 1;
+		
+		client3.restituer(true);
+		
+		assertEquals("NbEmpruntsDepasses doit être decrémenter",expectednbED,client3.getnbEmpruntsDepasses());
+		
 	}
 	
 	@Test
-	public void metAJourEmpruntsTest(){
-		fail("Not yes implemented");
+	public void metAJourEmpruntsTest() throws OperationImpossible {
+		
+		emprunt.setDepasse(true);
+		client4.setnbEmpruntsEncours(1);
+		client4.setnbEmpruntsDepasses(1);
+		
+		client4.metAJourEmprunts();
+		
+		assertEquals("On enlève les emprunts depassé",0,client3.getnbEmpruntsDepasses());
 	}
 	
+		
 	@Test
 	public void dateRetourTest(){
-		
+		fail("Not implemented yet");
 	}
 	
 	@Test
 	public void sommeDueTest(){
-		
+		fail("Not implemented yet");
 	}
-	*/
+	
 }

@@ -306,6 +306,15 @@ public class Client implements Serializable {
                 }
                 nbEmpruntsDepasses++;
         }
+        
+        public void marquerStub() throws OperationImpossible {
+        	
+        	if(nbEmpruntsDepasses > nbEmpruntsEnCours){
+                throw new OperationImpossible("Impossible d'avoir plus d'emprunts en retard que d'emprunts : "+this);
+        		}
+        		nbEmpruntsDepasses++;
+        	
+        }
 
         /**
          * <TT>restituer</TT> est appelee lors de la restitution d'un
@@ -340,7 +349,7 @@ public class Client implements Serializable {
         /**
          * mise a jour des emprunts suite a un changement de categorie du client
          */
-        private void metAJourEmprunts() throws OperationImpossible {
+        public void metAJourEmprunts() throws OperationImpossible {
                 boolean res;
                 for (FicheEmprunt emprunt : lesEmprunts) {
                         res = emprunt.changementCategorie();
