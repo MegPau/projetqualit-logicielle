@@ -234,7 +234,6 @@ public class MediathequeTest {
 	}
 	
 	
-	
 	@Test
 	public void modifierCatClientTest() throws OperationImpossible{
 		media.ajouterCatClient("catTest", 20, 8, 2, 3, true);
@@ -249,9 +248,46 @@ public class MediathequeTest {
 		media.modifierCatClient(catClientInexistante,"nouvelleCatTest", 15, 6, 3, 4, false);
 	}
 
+	@Test
+	public void chercherDocumentTest() throws OperationImpossible{
+		DocumentStub docu = new DocumentStub("aaa", media3.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
+		assertEquals("Le document n'est pas trouvé.",docu ,media3.chercherDocument("aaa"));
+	}
+	
+	@Test
+	public void chercherDocumentInexistantTest() throws OperationImpossible{
+		assertEquals("Le document n'est pas trouvé.",null ,media3.chercherDocument("zzz"));
+	}
+	
+		
+	@Test
+	public void ajouterDocumentTest() throws OperationImpossible{
+		int initialSize = media3.getDocumentsSize();
+		DocumentStub docu = new DocumentStub("bbb", media3.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
+		media3.ajouterDocument(docu);
+		assertEquals("Le document n'est pas ajouté à la liste des documents : nombre de documents non incrémenté", initialSize+1,media3.getDocumentsSize());
+		assertEquals("Le document n'est pas trouvé.",docu ,media3.chercherDocument("bbb"));
+	}
+	@Test(expected = OperationImpossible.class)
+	public void ajouterDocumentExistantTest() throws OperationImpossible{
+		DocumentStub docu = new DocumentStub("aaa", media3.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
+		media3.ajouterDocument(docu);
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void ajouterDocumentGenreInexistantTest() throws OperationImpossible{
+		DocumentStub docu = new DocumentStub("ddd", media3.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", media3.chercherGenre("genreRandom"));
+		media3.ajouterDocument(docu);
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void ajouterDocumentLocalisationInexistanteTest() throws OperationImpossible{
+		DocumentStub docu = new DocumentStub("eee", media3.chercherLocalisation("salleRandom", "rayonRandom"), "titre1", "auteur1", "2002", media3.chercherGenre("genreTest2"));
+		media3.ajouterDocument(docu);
+	}
+	
 	/*
-	chercherDocument
-	ajouterDocument
+	
 	retirerDocument
 	metEmpruntable
 	metConsultable
