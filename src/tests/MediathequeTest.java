@@ -442,11 +442,64 @@ public class MediathequeTest {
 		
 		media3.restituer("Smith", "John", "oooo");
 	}
-	/*
-	verifier
 	
-	inscrire
-	resilier
+	@Test
+	public void inscrireTest() throws OperationImpossible{
+		CategorieClient catTestInscription = new CategorieClient("catTestInscription", 20, 8, 2, 3, false);
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		double cotisationTrouvee = media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		double cotisationExpected = 8;
+		assertEquals("La cotisation retournée n'est pas correcte", cotisationExpected, cotisationTrouvee, 0.001);
+		assertEquals("Le client n'est pas dans la liste des clients.", new Client("Haliday", "Johnny", "57 rue du melon", catTestInscription),media.chercherClient("Haliday", "Johnny"));
+	}
+	@Test(expected = OperationImpossible.class)
+	public void inscrireClientExistant() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+	}
+	@Test(expected = OperationImpossible.class)
+	public void inscrireCategorieInexistante() throws OperationImpossible{
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInexistante");
+	}
+	@Test(expected = OperationImpossible.class)
+	public void inscrireCatReduc() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, true);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+	}
+	@Test
+	public void inscrireReducTest() throws OperationImpossible{
+		CategorieClient catTestInscription = new CategorieClient("catTestInscription", 20, 8, 2, 3, false);
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, true);
+		double cotisationTrouvee = media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription", 5);
+		double cotisationExpected = 8;
+		assertEquals("La cotisation retournée n'est pas correcte", cotisationExpected, cotisationTrouvee, 0.001);
+		assertEquals("Le client n'est pas dans la liste des clients.", new Client("Haliday", "Johnny", "57 rue du melon", catTestInscription),media.chercherClient("Haliday", "Johnny"));
+	}
+	
+	@Test
+	public void resilierTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.resilier("Haliday", "Johnny");
+		assertEquals("Le client n'a pas été supprimé. ", null, media.chercherClient("Haliday", "Johnny"));
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void resilierClientInexistantTest() throws OperationImpossible{
+		media.resilier("Haliday", "Johnny");
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void resilierEmpruntsEnCoursTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.chercherClient("Haliday", "Johnny").setnbEmpruntsEncours(5);
+		media.resilier("Haliday", "Johnny");
+	}
+	
+	/*
+	
 	modifierClient
 	changerCategorie
 	changerCodeReduction
