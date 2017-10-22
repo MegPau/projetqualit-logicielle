@@ -243,6 +243,6 @@ public class FicheEmprunt implements Serializable {
         	return nbEmpruntsTotal;
         }
         
-        
+     
         
 }
