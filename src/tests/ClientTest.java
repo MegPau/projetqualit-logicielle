@@ -181,7 +181,7 @@ public class ClientTest {
 	@Test(expected = OperationImpossible.class)
 	public void marquerTest() throws OperationImpossible{
 		
-		client1.setnbEmpruntsDepasses(2);
+		client1.setnbEmpruntsDepasses(1);
 		client1.setnbEmpruntsEncours(1);
 		
 		client1.marquer();			
@@ -207,8 +207,7 @@ public class ClientTest {
 	@Test(expected = NoSuchElementException.class)
 	public void restituerTest() throws OperationImpossible{
 		
-		client3.restituer(emprunt);
-		
+		client3.restituer(emprunt);		
 		client3.getLastEmprunt();
 		
 	}
@@ -218,7 +217,8 @@ public class ClientTest {
 	public void restituerTest2() throws OperationImpossible{
 				
 		client3.setnbEmpruntsEncours(0);
-		client3.restituer(true);	
+		client3.restituer(true);
+		
 		
 	}
 	
@@ -232,9 +232,18 @@ public class ClientTest {
 		
 	}
 	
+	//Expected "Restituer en retard sans emprunt" operation impossible
+		@Test(expected = OperationImpossible.class)
+		public void restituerTest4() throws OperationImpossible{
+					
+			client3.setnbEmpruntsEncours(0);
+			client3.setnbEmpruntsDepasses(1);
+			client3.restituer(true);	
+			
+		}
 	
 	@Test
-	public void restituerTest4() throws OperationImpossible{
+	public void restituerTest5() throws OperationImpossible{
 				
 		client3.setnbEmpruntsEncours(1);
 		client3.setnbEmpruntsDepasses(1);
@@ -251,7 +260,7 @@ public class ClientTest {
 	public void metAJourEmpruntsTest() throws OperationImpossible {
 		
 		emprunt.setDepasse(true);
-		client4.setnbEmpruntsEncours(1);
+		client4.setnbEmpruntsEncours(2);
 		client4.setnbEmpruntsDepasses(1);
 		
 		client4.metAJourEmprunts();

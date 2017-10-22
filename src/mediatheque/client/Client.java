@@ -303,14 +303,6 @@ public class Client implements Serializable {
                 nbEmpruntsDepasses++;
         }
         
-        public void marquerStub() throws OperationImpossible {
-        	
-        	if(nbEmpruntsDepasses > nbEmpruntsEnCours){
-                throw new OperationImpossible("Impossible d'avoir plus d'emprunts en retard que d'emprunts : "+this);
-        		}
-        		nbEmpruntsDepasses++;
-        	
-        }
 
         /**
          * <TT>restituer</TT> est appelee lors de la restitution d'un
@@ -330,11 +322,13 @@ public class Client implements Serializable {
          *   @param enRetard Indique si l'emprunt est marque en retard
          */
         public void restituer(boolean enRetard) throws OperationImpossible {
-                if(nbEmpruntsEnCours == 0){
+                if(nbEmpruntsEnCours == 0)
+                {
                         throw new OperationImpossible("Restituer sans emprunt "+ this);
                 }
                 nbEmpruntsEnCours--;
-                if (enRetard) {
+                if (enRetard) 
+                {
                         if(nbEmpruntsDepasses == 0){
                                 throw new OperationImpossible("Restituer en retard sans retard "+ this);
                         }

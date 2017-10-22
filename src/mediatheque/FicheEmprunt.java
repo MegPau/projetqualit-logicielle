@@ -93,7 +93,7 @@ public class FicheEmprunt implements Serializable {
          */
         private void premierRappel() throws OperationImpossible {
                 depasse = true;
-                client.marquerStub();
+                client.marquer();
                 rappel = new LettreRappel(mediatheque.getNom(), this);
         }
 
