@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 import org.junit.After;
@@ -18,6 +20,7 @@ import mediatheque.OperationImpossible;
 import mediatheque.client.CategorieClient;
 import mediatheque.client.Client;
 import mediatheque.document.Document;
+import util.Datutil;
 import util.InvariantBroken;
 
 public class ClientTest {
@@ -29,6 +32,9 @@ public class ClientTest {
 	DocumentStub docu,docu1;
 	Localisation local,local1;
 	Genre genre,genre1;
+	Date jour;
+	Date expectedDate;
+	
 	
 	@Before
 	public void setUp() throws Exception {
@@ -60,6 +66,8 @@ public class ClientTest {
 		docu1.setEmpruntable(true);
 		media1 = new Mediatheque("media1");
 		emprunt1 = new FicheEmprunt(media1, client4, docu1);
+		
+		jour = Calendar.getInstance().getTime();
 	}
 	
 	
@@ -108,7 +116,7 @@ public class ClientTest {
 
 	}
 	
-	@Test //a refaire car en faisait la fiche emprunt on a déja incrementé
+	@Test 
 	public void emprunterTest2() throws OperationImpossible, InvariantBroken{
 		
 
@@ -209,12 +217,22 @@ public class ClientTest {
 		
 	@Test
 	public void dateRetourTest(){
-		fail("Not implemented yet");
+		
+		int duree = 2;
+		cat2.modifierCoefDuree(1.5);
+		int expectedD =(int) ((double) duree * cat2.getCoefDuree());
+		
+		expectedDate =  client4.dateRetour(jour, duree);
+		
+		assertEquals("Les coefs et les duree sont les bonnes",expectedDate,Datutil.addDate(jour, expectedD) );
+			
+		
 	}
-	
+	/*
 	@Test
 	public void sommeDueTest(){
-		fail("Not implemented yet");
-	}
+		
+		
+	}*/
 	
 }
