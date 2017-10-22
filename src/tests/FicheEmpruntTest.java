@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import mediatheque.FicheEmprunt;
 import mediatheque.Genre;
+import mediatheque.LettreRappel;
 import mediatheque.Localisation;
 import mediatheque.Mediatheque;
 import mediatheque.OperationImpossible;
@@ -36,7 +37,7 @@ public class FicheEmpruntTest {
 	Localisation endroit;
 	Genre genre;
 	FicheEmprunt fEmprunt;
-	
+	LettreRappel rappel;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -56,6 +57,7 @@ public class FicheEmpruntTest {
 		docu2.setEmpruntable(true);
 		fEmprunt = new FicheEmprunt(media, client, docu);
 		
+		//rappel = new LettreRappel("docu",fEmprunt);
 		
 	}
 	
@@ -76,8 +78,7 @@ public class FicheEmpruntTest {
 		assertEquals("La fiche n'est pas sur le client",client2.getLastEmprunt(),fEmprunt);
 		assertEquals("Le nombre total ne s'est pas incrémenté",expectedNbTot +1 ,fEmprunt.getNbEmpruntTotal());
 		
-	}
-	
+	}	
 	/*
 	 * Le document a bien été mis dans la fiche d'emprunt
 	 */
@@ -87,6 +88,7 @@ public class FicheEmpruntTest {
 		docu2.emprunter();
 
 	}
+	
 	
 	@Test
 	public void correspondTest(){
