@@ -141,6 +141,8 @@ public class FicheEmprunt implements Serializable {
                 document.restituer();
         }
 
+        
+        
         public Client getClient() {
                 return client;
         }
@@ -210,10 +212,37 @@ public class FicheEmprunt implements Serializable {
         }
         
         /**
+         * Setter et Getter rajouter pour test
+         * @return
+         */
+        
+        /**
          * Permet de modifier la valeur depasse (test)
          * @param depasse
          */
         public void setDepasse(boolean depasse){
         	this.depasse = depasse;
         }
+        
+        /**
+         * Get l'objet Mediatheque
+         * @return un objet de type Mediatheque
+         */
+        public Mediatheque getMediatheque()
+        {
+        	return this.mediatheque;
+        }
+        
+        /**
+         * get le nombre d'emprunt total
+         * @return int nbEmpruntTotal 
+         */
+        
+        public int getNbEmpruntTotal()
+        {
+        	return nbEmpruntsTotal;
+        }
+        
+        
+        
 }

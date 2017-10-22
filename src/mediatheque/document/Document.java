@@ -311,4 +311,9 @@ public abstract class Document implements Empruntable, Serializable, HasInvarian
         public void setEmprunte(boolean emprunte){
         	this.emprunte = emprunte;
         }
+        
+        /**
+         * Permet de modifier l'attribu DureeEmprunt TEST
+         */
+        
 }

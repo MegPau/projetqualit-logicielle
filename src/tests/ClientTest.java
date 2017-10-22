@@ -75,7 +75,7 @@ public class ClientTest {
 	
 	
 	@Test 
-	public void clientConstructeur() throws OperationImpossible {
+	public void clientConstructeurTest() throws OperationImpossible {
 		Client client = new Client("Pierre","Haikal","rue albert",cat3);
 		
 		assertEquals("Le code n'est pas introduit dans le client. ","Pierre",client.getNom() );
@@ -85,7 +85,7 @@ public class ClientTest {
 	}
 	
 	@Test(expected = OperationImpossible.class)
-	public void clientConstructeur2() throws OperationImpossible {
+	public void clientConstructeurTest2() throws OperationImpossible {
 		cat3.modifierCodeReducActif(false);
 		Client client = new Client("Pierre","Haikal","rue albert",cat3,46);
 		
@@ -93,7 +93,7 @@ public class ClientTest {
 	
 
 	@Test 
-	public void clientConstructeur3() throws OperationImpossible {
+	public void clientConstructeurTest3() throws OperationImpossible {
 		
 		cat3.modifierCodeReducActif(true);
 		Client client = new Client("Pierre","Haikal","rue albert",cat3,46);
@@ -106,7 +106,7 @@ public class ClientTest {
 		
 	}
 	@Test
-	public void clientConstructeur4()
+	public void clientConstructeurTest4()
 	{
 		Client client = new Client("Pierre", "Haikal");
 		assertEquals("Le code n'est pas introduit dans le client. ","Pierre",client.getNom() );

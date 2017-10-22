@@ -20,6 +20,7 @@ import mediatheque.client.CategorieClient;
 import mediatheque.client.Client;
 import mediatheque.document.Document;
 import mediatheque.document.Livre;
+import util.Datutil;
 import util.InvariantBroken;;
 
 /**
@@ -52,12 +53,40 @@ public class FicheEmpruntTest {
 		docu = new DocumentStub("12345",endroit,"titre","auteur","annee",genre);
 		docu2 = new DocumentStub("147", endroit,"titre", "auteur", "annee", genre);
 		docu.setEmpruntable(true);
-		
+		docu2.setEmpruntable(true);
 		fEmprunt = new FicheEmprunt(media, client, docu);
 		
 		
 	}
+	
+	@Test
+	public void FicheEmpruntConstructeurTest() throws OperationImpossible, InvariantBroken
+	{
+		int duree = docu2.dureeEmprunt();
+		int expectedNbTot = fEmprunt.getNbEmpruntTotal();
+		FicheEmprunt fEmprunt = new FicheEmprunt(media, client2, docu2);
+		
+				
+		assertEquals("La valeur mediatheque a mal été attribué",media,fEmprunt.getMediatheque() );
+		assertEquals("La valeur client a mal été attribué",client2,fEmprunt.getClient());
+		assertEquals("La valeur document a mal été attribué",docu2,fEmprunt.getDocument());
+		assertEquals("La valeur date a mal été attribué",Datutil.dateDuJour(),fEmprunt.getDateEmprunt());
+		assertEquals("La valeur date limite a mal été attribué",client2.dateRetour(fEmprunt.getDateEmprunt(), duree),fEmprunt.getDateLimite());
+		assertEquals("La valeur depasse a mal été attribué",false,fEmprunt.getDepasse());
+		assertEquals("La fiche n'est pas sur le client",client2.getLastEmprunt(),fEmprunt);
+		assertEquals("Le nombre total ne s'est pas incrémenté",expectedNbTot +1 ,fEmprunt.getNbEmpruntTotal());
+		
+	}
+	
+	/*
+	 * Le document a bien été mis dans la fiche d'emprunt
+	 */
+	@Test(expected = OperationImpossible.class)
+	public void FicheEmpruntConstructeurTest2() throws OperationImpossible, InvariantBroken
+	{
+		docu2.emprunter();
 
+	}
 	
 	@Test
 	public void correspondTest(){

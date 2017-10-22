@@ -290,11 +290,6 @@ public class Client implements Serializable {
                 nbEmpruntsEnCours++;
         }
         
-        public FicheEmprunt getLastEmprunt() {
-        	
-        	return lesEmprunts.lastElement();
-        }
-
         /**
          * <TT>marquer</TT> interdit tout nouvel emprunt par le client.
          * Cette fonction est appelee par <TT>verifier</TT> de
@@ -505,22 +500,47 @@ public class Client implements Serializable {
         }
         
         /**
-         * Setter rajouter pour les tests
+         * Setter/Getter rajoute pour les tests
          */
         
+        /**
+         * Getter du lastEmprunt 
+         * @return le dernier element de la liste lesEmprunts de type FicheEmprunt
+         */
+        public FicheEmprunt getLastEmprunt() {
+        	
+        	return lesEmprunts.lastElement();
+        }
+        
+        /**
+         * Modifie le nombre d'emprunt depassé
+         * @param val
+         */
         public void setnbEmpruntsDepasses(int val) {
     		nbEmpruntsDepasses = val;
         }
         
+        /**
+         * Modifie le nombre d'emprunt en cours
+         * @param val
+         */
         public void setnbEmpruntsEncours(int val) {
         	nbEmpruntsEnCours = val;
         }
         
+        /**
+         * Modifie le nombre d'emprunt effectues
+         * @param val
+         */
         public void setnbEmpruntsEffectues(int val) {
         	
         	nbEmpruntsEffectues = val;
         }
         
+        /**
+         * Get le nombre d'emprunt depassé
+         * @return  int nbEmpruntsDepasses
+         */
         public int getnbEmpruntsDepasses() {
         	
         	return nbEmpruntsDepasses;

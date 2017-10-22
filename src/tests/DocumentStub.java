@@ -21,7 +21,7 @@ public class DocumentStub extends Document {
 	@Override
 	public int dureeEmprunt() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
