@@ -589,13 +589,40 @@ public class MediathequeTest {
 	public void chercherClientInexistantTest(){
 		assertEquals("Le client inexistant a été retrouvé par la fonction.",null,media.chercherClient("Bonjour", "Coucou"));
 	}
-	/*
 	
-	existeClient
+	@Test
+	public void existeClientExiste() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		assertTrue("Le client de la catégorie n'a pas été détecté.", media.existeClient(media.chercherCatClient("catTestInscription")));
+	}
 	
-	initFromFile
-	saveToFile
-	*/
+	@Test
+	public void existeClientnExistePas() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		assertFalse("La catégorie n'est pas considérée comme vide.", media.existeClient(media.chercherCatClient("catTestInscription")));
+	}
 	
+	
+	@Test
+	public void saveToFileAndinitFromFileTest() throws OperationImpossible, InvariantBroken{
+		Mediatheque mediaTest = new Mediatheque("mediaTest");
+		mediaTest.setDebug(true);
+		mediaTest.ajouterLocalisation("salleTest2", "rayonTest2");
+		mediaTest.ajouterGenre("genreTest2");
+		mediaTest.ajouterCatClient("catTest2", 20, 8, 2, 3, true);
+		mediaTest.inscrire("Smith", "John", "57 rue du melon", "catTest2");
+		DocumentStub doc = new DocumentStub("aaa", mediaTest.chercherLocalisation("salleTest2", "rayonTest2"), "titre1", "auteur1", "2002", mediaTest.chercherGenre("genreTest2"));
+		doc.setEmpruntable(true);
+		mediaTest.ajouterDocument(doc);
+		mediaTest.emprunter("Smith", "John", "aaa");
+		mediaTest.saveToFile();
+		
+		Mediatheque mediaTest2 = new Mediatheque("mediaTest");
+		
+		mediaTest.afficherStatistiques();
+		mediaTest2.afficherStatistiques();
+		
+	}
 	
 }
