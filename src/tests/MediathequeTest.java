@@ -498,12 +498,99 @@ public class MediathequeTest {
 		media.resilier("Haliday", "Johnny");
 	}
 	
+	@Test
+	public void modifierClientTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.ajouterCatClient("catTestModification", 20, 8, 2, 3, true);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.modifierClient(media.chercherClient("Haliday", "Johnny"), "Smet", "Jean Phillipe", "40 rue allumez le feu",
+                "catTestModification", 4);
+		
+		assertEquals("Le client n'a pas été modifié", null, media.chercherClient("Haliday", "Johnny"));
+		assertEquals("Le client n'a pas été modifié correctement", new Client("Smet", "Jean Phillipe"), media.chercherClient("Smet", "Jean Phillipe"));
+		assertEquals("L'adresse du client n'a pas été modifiée", "40 rue allumez le feu", media.chercherClient("Smet", "Jean Phillipe").getAdresse());
+		assertEquals("La catégorie du client n'a pas été modifiée", new CategorieClient("catTestModification", 20, 8, 2, 3, true), media.chercherClient("Smet", "Jean Phillipe").getCategorie());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void modifierClientInexistantTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.modifierClient(new Client("Dupont","Jean"), "Smet", "Jean Phillipe", "40 rue allumez le feu",
+                "catTestInscription", 4);
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void modifierClientCatInexTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.modifierClient(media.chercherClient("Haliday", "Johnny"), "Smet", "Jean Phillipe", "40 rue allumez le feu",
+                "catTestModification", 4);
+		}
+	
+	
+	@Test
+	public void changerCategorieTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.ajouterCatClient("catTestModification", 20, 8, 2, 3, true);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.changerCategorie("Haliday", "Johnny", "catTestModification", 7);
+		assertEquals("La catégorie du client n'a pas été modifiée", new CategorieClient("catTestModification", 20, 8, 2, 3, true), media.chercherClient("Haliday", "Johnny").getCategorie());
+	}
+	@Test
+	public void changerCategorieSansReducTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.ajouterCatClient("catTestModification", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.changerCategorie("Haliday", "Johnny", "catTestModification", 0);
+		assertEquals("La catégorie du client n'a pas été modifiée", new CategorieClient("catTestModification", 20, 8, 2, 3, false), media.chercherClient("Haliday", "Johnny").getCategorie());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void changerCategorieClientInexistant() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.ajouterCatClient("catTestModification", 20, 8, 2, 3, true);
+		media.changerCategorie("Haliday", "Johnny", "catTestModification", 7);
+	}
+	@Test(expected = OperationImpossible.class)
+	public void changerCategorieCategorieInexistante() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.changerCategorie("Haliday", "Johnny", "catTestModification", 7);
+	}
+	
+	@Test
+	public void changerCodeReductionTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, true);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription",7);
+		media.changerCodeReduction("Haliday", "Johnny", 5);
+		assertEquals("La réduction n'a pas été modifiée.",5,media.chercherClient("Haliday", "Johnny").getReduc());
+	}
+	@Test(expected = OperationImpossible.class)
+	public void changerCodeReductionClientInexistantTest() throws OperationImpossible{
+		media.changerCodeReduction("Haliday", "Johnny", 5);
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void changerCodeReductionCategorieSansReducTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		media.changerCodeReduction("Haliday", "Johnny", 5);
+	
+	}
+	
+	@Test
+	public void chercherClientTest() throws OperationImpossible{
+		media.ajouterCatClient("catTestInscription", 20, 8, 2, 3, false);
+		media.inscrire("Haliday", "Johnny", "57 rue du melon", "catTestInscription");
+		assertEquals("Le client n'a pas été retrouvé par la fonction.",new Client("Haliday","Johnny"),media.chercherClient("Haliday", "Johnny"));
+	}
+	
+	@Test
+	public void chercherClientInexistantTest(){
+		assertEquals("Le client inexistant a été retrouvé par la fonction.",null,media.chercherClient("Bonjour", "Coucou"));
+	}
 	/*
 	
-	modifierClient
-	changerCategorie
-	changerCodeReduction
-	chercherClient
 	existeClient
 	
 	initFromFile
