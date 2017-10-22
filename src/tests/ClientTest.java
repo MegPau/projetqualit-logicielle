@@ -25,8 +25,8 @@ import util.InvariantBroken;
 
 public class ClientTest {
 	
-	Client client1, client2, client3,client4;
-	CategorieClient cat1,cat2;
+	Client client1, client2, client3, client4;
+	CategorieClient cat1,cat2, cat3;
 	FicheEmprunt emprunt,emprunt1;
 	Mediatheque media,media1;
 	DocumentStub docu,docu1;
@@ -43,6 +43,8 @@ public class ClientTest {
 		
 		cat2 = new CategorieClient("cat2");//categorie avec un max d'emprunt a 2
 		cat2.modifierMax(3);
+		
+		cat3 = new CategorieClient("cat3");
 		
 		client1 = new Client("Smith", "John","adresse1",cat1); 
 		
@@ -69,6 +71,49 @@ public class ClientTest {
 		
 		jour = Calendar.getInstance().getTime();
 	}
+	
+	
+	
+	@Test 
+	public void clientConstructeur() throws OperationImpossible {
+		Client client = new Client("Pierre","Haikal","rue albert",cat3);
+		
+		assertEquals("Le code n'est pas introduit dans le client. ","Pierre",client.getNom() );
+		assertEquals("Le code n'est pas introduit dans le client. ","Haikal",client.getPrenom() );
+		assertEquals("Le code n'est pas introduit dans le client. ","rue albert",client.getAdresse());
+		assertEquals("Le code n'est pas introduit dans le client. ",cat3,client.getCategorie());
+	}
+	
+	@Test(expected = OperationImpossible.class)
+	public void clientConstructeur2() throws OperationImpossible {
+		cat3.modifierCodeReducActif(false);
+		Client client = new Client("Pierre","Haikal","rue albert",cat3,46);
+		
+	}
+	
+
+	@Test 
+	public void clientConstructeur3() throws OperationImpossible {
+		
+		cat3.modifierCodeReducActif(true);
+		Client client = new Client("Pierre","Haikal","rue albert",cat3,46);
+		
+		assertEquals("Le code n'est pas introduit dans le client. ","Pierre",client.getNom() );
+		assertEquals("Le code n'est pas introduit dans le client. ","Haikal",client.getPrenom() );
+		assertEquals("Le code n'est pas introduit dans le client. ","rue albert",client.getAdresse());
+		assertEquals("Le code n'est pas introduit dans le client. ",cat3,client.getCategorie());
+		assertEquals("Le code n'est pas introduit dans le client. ",46,client.getReduc());
+		
+	}
+	@Test
+	public void clientConstructeur4()
+	{
+		Client client = new Client("Pierre", "Haikal");
+		assertEquals("Le code n'est pas introduit dans le client. ","Pierre",client.getNom() );
+		assertEquals("Le code n'est pas introduit dans le client. ","Haikal",client.getPrenom() );
+		
+	}
+	
 	
 	
 	@Test

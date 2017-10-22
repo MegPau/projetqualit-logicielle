@@ -105,6 +105,7 @@ public class Client implements Serializable {
                 }
                 this.codeReduction = code;
         }
+        
 
         /**
          * Constructeur de client permettant d'initialiser seulement le nom et prenom
@@ -522,9 +523,9 @@ public class Client implements Serializable {
         
         public int getnbEmpruntsDepasses() {
         	
-        	return this.nbEmpruntsDepasses;
+        	return nbEmpruntsDepasses;
         }
-        
+ 
         /**
          * Retourne le code de reduction du client
          */
